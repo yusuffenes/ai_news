@@ -3,16 +3,15 @@ use scraper::{Html, Selector};
 use std::io;
 
 fn main() {
-    let url = "https://news.mit.edu/topic/artificial-intelligence2";
-    let url1= "https://tr.euronews.com/tag/yapay-zeka";
-    let url2= "https://techcrunch.com/category/artificial-intelligence/";
-    let url3 = "https://yapaymag.com/";
-    let urls = [url, url1, url2, url3];
+    let urls = ["https://news.mit.edu/topic/artificial-intelligence2", 
+    "https://tr.euronews.com/tag/yapay-zeka", "https://techcrunch.com/category/artificial-intelligence/", "https://yapaymag.com/"];
     loop {
+        print!("----------------------------------------------------------------------------------------------- \n");
         println!("Hangi kaynaktan haber okumak istersiniz? (1-MIT, 2-Euronews, 3-TechCrunch 4-YapaMag q-Çıkış)");
         let mut input1 = String::new();
-        print!("-------------------------------------------------------------- \n");
         io::stdin().read_line(&mut input1).expect("Satır okunurken hata oluştu");
+        print!("----------------------------------------------------------------------------------------------- \n");
+        
         let result = match input1.trim() {
             "1" => urls[0], 
             "2" => urls[1],
@@ -49,11 +48,12 @@ fn main() {
             println!("{}: {}", index, title);
             titles.push((title, node.value().attr("href").unwrap().to_string()));
         }
-
+        print!("----------------------------------------------------------------------------------------------- \n");
         println!("Okumak istediğiniz Haberin numarasını giriniz:");
         let mut input = String::new();
-        print!("-------------------------------------------------------------- \n");
         io::stdin().read_line(&mut input).expect("Satır okunurken hata oluştu");
+        print!("----------------------------------------------------------------------------------------------- \n");
+        
         let choice: usize = input.trim().parse().expect("Lütfen bir numara yazın!");
         let heads = ["https://news.mit.edu/", "https://tr.euronews.com/", "https://techcrunch.com","https://yapaymag.com"];
 
