@@ -27,7 +27,6 @@ Projeyi çalıştırmak için aşağıdaki adımları takip edin:
 3. **Proje Klonlama**:
   ```
   git clone https://github.com/yusuffenes/ai_news.git
-  
   ```
  ```
   cd ai_news
