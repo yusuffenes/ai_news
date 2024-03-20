@@ -25,22 +25,22 @@ Projeyi çalıştırmak için aşağıdaki adımları takip edin:
 2. **Cargo**: Rust'ın paket yöneticisi ve yapı sistemi olan Cargo, Rust ile birlikte gelir. Cargo'nun yüklü olduğundan emin olun.
 
 3. **Proje Klonlama**:
-  '''
+  ```
   git clone https://github.com/yusuffenes/ai_news.git
   
-  '''
-  '''
+  ```
+ ```
   cd ai_news
-  '''
+  ```
 
 4. **Bağımlılıkları Yükleme**: Proje dizinindeyken, aşağıdaki komutu çalıştırarak projenin bağımlılıklarını yükleyin:
-  '''
+  ```
     cargo build
-  '''
+  ```
 
 5. **Projeyi Çalıştırma**: Bağımlılıklar yüklendikten sonra, projeyi aşağıdaki komut ile çalıştırabilirsiniz:
-'''
+```
 cargo run
-'''
+```
 
 Bu adımlar, projenizi yerel geliştirme ortamınızda başarıyla çalıştırmanız için gereken temel adımlardır.
