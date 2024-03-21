@@ -1,13 +1,14 @@
 use reqwest::blocking::get;
-use scraper::{selector, Html, Selector};
+use scraper::{ Html, Selector};
 use std::io;
+
 
 fn main() {
     let urls = ["https://news.mit.edu/topic/artificial-intelligence2", "https://www.euronews.com/tag/artificial-intelligence",
     "https://tr.euronews.com/tag/yapay-zeka", "https://techcrunch.com/category/artificial-intelligence/"
     , "https://yapaymag.com/","https://www.artificialintelligence-news.com/"
     ,"https://www.foxbusiness.com/category/artificial-intelligence","https://www.adweek.com/category/artificial-intelligence/"
-    ,"https://theconversation.com/europe/topics/artificial-intelligence-ai-90","https://abcnews.go.com/alerts/artificial-intelligence"];
+    ,"https://theconversation.com/europe/topics/artificial-intelligence-ai-90"];
     loop {
         print!("----------------------------------------------------------------------------------------------- \n");
         println!("Hangi kaynaktan haber okumak istersiniz? ");
@@ -20,7 +21,6 @@ fn main() {
         println!("7: Fox Business ");
         println!("8: Adweek AI");
         println!("9: The Conversation");
-        println!("10: ABC News");
         println!("q: Çıkış");
 
         let mut input1 = String::new();
@@ -37,7 +37,6 @@ fn main() {
             "7" => urls[6],
             "8" => urls[7],
             "9" => urls[8],
-            "10" => urls[9],
             "q" => break,
             _ => {
                 println!("Geçersiz seçim.");
@@ -57,7 +56,6 @@ fn main() {
         let selector_foxbusiness = Selector::parse("h3 a").unwrap();
         let selector_adweek = Selector::parse("h2 a").unwrap();
         let selector_theconversation = Selector::parse("h2 a").unwrap();
-        let selector_abcnews = Selector::parse("h2 a").unwrap();
         let mut titles = Vec::new();
         let selector = match input1.trim() {
             "1" => &selector_mit,
@@ -69,7 +67,6 @@ fn main() {
             "7" => &selector_foxbusiness,
             "8" => &selector_adweek,
             "9" => &selector_theconversation,
-            "10" => &selector_abcnews,
             "q" => break,
             _ => {
                 println!("Geçersiz seçim.");
@@ -89,7 +86,7 @@ fn main() {
         
         let choice: usize = input.trim().parse().expect("Lütfen bir numara yazın!");
         let heads = ["https://news.mit.edu/","https://www.euronews.com/", "https://tr.euronews.com/", "https://techcrunch.com","https://yapaymag.com"
-        ,"https://www.artificialintelligence-news.com/", "https://www.foxbusiness.com/","https://www.adweek.com/","https://theconversation.com/","https://abcnews.go.com/"];
+        ,"https://www.artificialintelligence-news.com/", "https://www.foxbusiness.com/","https://www.adweek.com/","https://theconversation.com/"];
 
         if let Some((_, article_url)) = titles.get(choice) {
             let full_url = if article_url.starts_with("http") {
@@ -105,7 +102,6 @@ fn main() {
                     "7" => format!("{}{}", heads[6], article_url.trim_start_matches('/')),
                     "8" => format!("{}{}", heads[7], article_url.trim_start_matches('/')),
                     "9" => format!("{}{}", heads[8], article_url.trim_start_matches('/')),
-                    "10" => format!("{}{}", heads[9], article_url.trim_start_matches('/')),
                     "q" => break,
                     _ => {
                         println!("Geçersiz seçim.");
@@ -117,10 +113,36 @@ fn main() {
             let body = response.text().expect("Makale gövdesi okunurken hata oluştu");
             let document = Html::parse_document(&body);
 
-            let selector = Selector::parse("p").unwrap();
+            let selector_mit = Selector::parse(".paragraph--type--content-block-text p").unwrap();
+            let selector= Selector::parse("p").unwrap();
+            let selector_fox = Selector::parse(".article-body").unwrap();
+            let selector_thecon = Selector::parse(".content-body p").unwrap();
+
+
+
+            
+
+            let selector = match input1.trim() {
+                "1" => &selector_mit,
+                "2" => &selector,
+                "3" => &selector,
+                "4" => &selector,
+                "5" => &selector,
+                "6" => &selector,
+                "7" => &selector_fox,
+                "8" => &selector,
+                "9" => &selector_thecon,
+                "q" => break,
+                _ => {
+                    println!("Geçersiz seçim.");
+                    return;
+                },
+                
+            };
             for paragraph in document.select(&selector) {
                 let text = paragraph.text().collect::<Vec<_>>().join(" ").trim().to_string();
                 if !text.is_empty() {
+                    
                     println!("{}", text);
                 }
             }
