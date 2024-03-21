@@ -1,11 +1,11 @@
 use reqwest::blocking::get;
-use scraper::{ Html, Selector};
+use scraper::{ selector, Html, Selector};
 use std::io;
 
 
 fn main() {
-    let urls = ["https://news.mit.edu/topic/artificial-intelligence2", "https://www.euronews.com/tag/artificial-intelligence",
-    "https://tr.euronews.com/tag/yapay-zeka", "https://techcrunch.com/category/artificial-intelligence/"
+    let urls = ["https://news.mit.edu/topic/artificial-intelligence2", "https://scitechdaily.com/tag/artificial-intelligence/",
+    "https://venturebeat.com/category/ai/", "https://techcrunch.com/category/artificial-intelligence/"
     , "https://yapaymag.com/","https://www.artificialintelligence-news.com/"
     ,"https://www.foxbusiness.com/category/artificial-intelligence","https://www.adweek.com/category/artificial-intelligence/"
     ,"https://theconversation.com/europe/topics/artificial-intelligence-ai-90"];
@@ -13,8 +13,8 @@ fn main() {
         print!("----------------------------------------------------------------------------------------------- \n");
         println!("Hangi kaynaktan haber okumak istersiniz? ");
         println!("1: MIT News");
-        println!("2: EuronewsEN");
-        println!("3: EuronewsTR");
+        println!("2: SciTech Daily");
+        println!("3: Venture Beat");
         println!("4: TechCrunch");
         println!("5: Yapay Mag");
         println!("6: Artificial Intelligence News");
@@ -48,8 +48,8 @@ fn main() {
         let document = Html::parse_document(&body);
 
         let selector_mit = Selector::parse("h3 a").unwrap();
-        let selector_euronews_en = Selector::parse("h3 a").unwrap();
-        let selector_euronews_tr = Selector::parse("h3 a").unwrap();
+        let selector_scitechdaily = Selector::parse("h3 a").unwrap();
+        let selector_venture = Selector::parse("h2 a").unwrap();
         let selector_techcrunch = Selector::parse("h2 a").unwrap();
         let selector_yapaymag = Selector::parse("h2 a").unwrap();
         let selector_artificialintelligence = Selector::parse("h3 a").unwrap();
@@ -59,8 +59,8 @@ fn main() {
         let mut titles = Vec::new();
         let selector = match input1.trim() {
             "1" => &selector_mit,
-            "2" => &selector_euronews_en, 
-            "3" => &selector_euronews_tr,
+            "2" => &selector_scitechdaily, 
+            "3" => &selector_venture,
             "4" => &selector_techcrunch,
             "5" => &selector_yapaymag,
             "6" => &selector_artificialintelligence,
@@ -85,7 +85,7 @@ fn main() {
         print!("----------------------------------------------------------------------------------------------- \n");
         
         let choice: usize = input.trim().parse().expect("Lütfen bir numara yazın!");
-        let heads = ["https://news.mit.edu/","https://www.euronews.com/", "https://tr.euronews.com/", "https://techcrunch.com","https://yapaymag.com"
+        let heads = ["https://news.mit.edu/","https://scitechdaily.com/", "https://venturebeat.com/", "https://techcrunch.com","https://yapaymag.com"
         ,"https://www.artificialintelligence-news.com/", "https://www.foxbusiness.com/","https://www.adweek.com/","https://theconversation.com/"];
 
         if let Some((_, article_url)) = titles.get(choice) {
@@ -117,6 +117,10 @@ fn main() {
             let selector= Selector::parse("p").unwrap();
             let selector_fox = Selector::parse(".article-body").unwrap();
             let selector_thecon = Selector::parse(".content-body p").unwrap();
+            let selector_scidaily = Selector::parse(".entry-content.clearfix > p").unwrap();
+            let selector_ainews = Selector::parse("div.cell p").unwrap();
+            
+
 
 
 
@@ -124,11 +128,11 @@ fn main() {
 
             let selector = match input1.trim() {
                 "1" => &selector_mit,
-                "2" => &selector,
+                "2" => &selector_scidaily,
                 "3" => &selector,
                 "4" => &selector,
                 "5" => &selector,
-                "6" => &selector,
+                "6" => &selector_ainews,
                 "7" => &selector_fox,
                 "8" => &selector,
                 "9" => &selector_thecon,
